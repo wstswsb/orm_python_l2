@@ -9,13 +9,18 @@ class CashierRepository:
     def __init__(self, sessionmaker: async_sessionmaker[AsyncSession]):
         self.sessionmaker = sessionmaker
 
+    async def get(self, ident: int) -> CashierModel | None:
+        async with self.sessionmaker() as session:
+            result = await session.get(CashierModel, ident)
+        return result
+
     async def get_top_seller_last_month(self) -> CashierModel | None:
         async with self.sessionmaker() as session:
             top_seller_subquery = (
                 select(SoldProductModel.cashier_id)
                 .where(
                     SoldProductModel.date_of_sale.between(
-                        func.current_date() - func.cast(concat(1, "month"), Interval) ,
+                        func.current_date() - func.cast(concat(1, "month"), Interval),
                         func.current_date(),
                     )
                 )

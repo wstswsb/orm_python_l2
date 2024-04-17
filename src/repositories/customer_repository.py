@@ -8,6 +8,11 @@ class CustomerRepository:
     def __init__(self, sessionmaker: async_sessionmaker[AsyncSession]):
         self.sessionmaker = sessionmaker
 
+    async def get(self, ident: int) -> CustomerModel | None:
+        async with self.sessionmaker() as session:
+            result = await session.get(CustomerModel, ident)
+        return result
+
     async def get_most_frequent(self, max_number: int) -> list[CustomerModel]:
         async with self.sessionmaker() as session:
             most_frequent_ids_subquery = (

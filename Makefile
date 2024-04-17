@@ -1,6 +1,6 @@
 lint:
-	ruff check --fix .
 	ruff format .
+	ruff check --fix .
 	mypy --strict .
 
 up:

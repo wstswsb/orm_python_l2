@@ -10,6 +10,23 @@ class ProductRepository:
     def __init__(self, sessionmaker: async_sessionmaker[AsyncSession]):
         self.sessionmaker = sessionmaker
 
+    async def get_customer_products(self, customer_id: int) -> list[ProductModel]:
+        async with self.sessionmaker() as session:
+            product_ids_subquery = (
+                select(SoldProductModel.product_id)
+                .where(SoldProductModel.customer_id == customer_id)
+                .distinct()
+            )
+            statement = (
+                select(ProductModel)
+                .where(ProductModel.id.in_(product_ids_subquery))
+                .order_by(asc(ProductModel.id))
+            )  # fmt: skip
+
+            scalar_result = await session.scalars(statement)
+            product_models = scalar_result.all()
+        return list(product_models)
+
     async def save_many(self, models: Iterable[ProductModel]) -> list[ProductModel]:
         async with self.sessionmaker() as session:
             session.add_all(models)
