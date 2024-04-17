@@ -3,6 +3,7 @@ from functools import cached_property
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
 from src.connection_manager import ConnectionManager
+from src.repositories.cashier_repository import CashierRepository
 from src.repositories.customer_repository import CustomerRepository
 from src.repositories.product_repository import ProductRepository
 from src.settings import DBSettings
@@ -30,6 +31,10 @@ class Structure:
     @cached_property
     def customer_repository(self) -> CustomerRepository:
         return CustomerRepository(sessionmaker=self.sessionmaker)
+
+    @cached_property
+    def cashier_repository(self) -> CashierRepository:
+        return CashierRepository(sessionmaker=self.sessionmaker)
 
 
 _db_settings = DBSettings()

@@ -2,8 +2,8 @@ INSERT INTO sold_product (
     product_id,
     customer_id,
     cashier_id,
-
     quantity,
+
     total_price,
     date_of_sale
 

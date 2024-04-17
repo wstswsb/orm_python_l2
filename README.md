@@ -37,3 +37,9 @@ id_
 
 ---
 
+4. Получить кассира который продал товары за последний месяц на наибольшую сумму.
+
+- **Запрос**
+    - `src.repositories.cashier_repository.CashierRepository.get_top_seller_last_month`
+- **Тест**
+    - `tests.test_cashier_repository.test_top_seller_last_month`
