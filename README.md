@@ -43,3 +43,15 @@ id_
     - `src.repositories.cashier_repository.CashierRepository.get_top_seller_last_month`
 - **Тест**
     - `tests.test_cashier_repository.test_top_seller_last_month`
+
+---
+
+5. Получить самый продаваемый товар
+
+- **Запрос**
+    - `src.repositories.product_repository.ProductRepository.get_best_selling`
+- **Тест**
+    - `tests.test_product_repository.test_get_best_selling`
+
+---
+

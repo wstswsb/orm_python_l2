@@ -27,3 +27,16 @@ async def test_save_many(sut: ProductRepository) -> None:
 
     # Assert
     assert len(result) == 5
+
+
+@pytest.mark.asyncio
+async def test_get_best_selling(sut: ProductRepository) -> None:
+    # Arrange
+    await store_mock_data(sut.sessionmaker)
+
+    # Act
+    result = await sut.get_best_selling()
+
+    # Assert
+    assert result is not None
+    assert result.id == 15
