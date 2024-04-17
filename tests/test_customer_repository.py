@@ -26,3 +26,16 @@ async def test_get_most_frequent(sut: CustomerRepository) -> None:
     assert result[2].id == 5
     assert result[3].id == 1
     assert result[4].id == 2
+
+
+@pytest.mark.asyncio
+async def test_get_least_frequent(sut: CustomerRepository) -> None:
+    # Arrange
+    await store_mock_data(sut.sessionmaker)
+
+    # Act
+    result = await sut.get_least_frequent()
+
+    # Assert
+    assert result is not None
+    assert result.id == 11

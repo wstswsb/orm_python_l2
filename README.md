@@ -21,3 +21,19 @@ id_
 - **Тест**:
     - `tests.test_customer_repository.test_get_most_frequent`
 
+---
+
+3. Получить наименее частого покупателя
+
+Интерпретировал как:  
+_Получить покупателя с наименьшим количеством купленных продуктов._  
+_Покупатели с одинаковым количеством купленных продуктов должны быть отсортированы по
+id_
+
+- **Запрос**
+    - `src.repositories.customer_repository.CustomerRepository.get_least_frequent`
+- **Тест**
+    - `tests.test_customer_repository.test_get_least_frequent`
+
+---
+
