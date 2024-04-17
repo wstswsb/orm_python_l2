@@ -1,0 +1,28 @@
+services:
+  postgres:
+    container_name: postgres
+    image: postgres:15.6
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_volume:/var/lib/postgresql/data
+
+  pgadmin:
+    container_name: pgadmin4_container
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL : ${PGADMIN_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "5050:80"
+    volumes:
+      - pgadmin_volume:/var/lib/pgadmin
+
+volumes:
+  postgres_volume:
+  pgadmin_volume:
