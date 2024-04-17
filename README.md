@@ -65,3 +65,18 @@ _Товары с одинаковым количеством продаж сор
     - `src.repositories.product_repository.ProductRepository.get_cheapest_from_best_selling`
 - **Тест**
     - `tests.test_product_repository.test_get_cheapest_from_best_selling`
+
+---
+
+7. Удалить наименее продаваемые товары
+   
+Интерпретировал как:
+_Удалить топ N наименее продаваемых товаров._  
+_Товары с одинаковым количеством продаж сортируются в порядке возрастания их id_  
+_При удалении товара проставлять Null в таблицу SoldProduct_
+
+- **Запрос**
+    - `src.repositories.product_repository.ProductRepository.delete_least_sold`
+- **Тест**
+    - `tests.test_product_repository.test_delete_leas_sold`
+---

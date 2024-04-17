@@ -1,6 +1,6 @@
 from collections.abc import Iterable
 
-from sqlalchemy import asc, desc, func, select
+from sqlalchemy import asc, delete, desc, func, select
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
 from src.models import ProductModel, SoldProductModel
@@ -58,3 +58,22 @@ class ProductRepository:
             )
             result = await session.scalar(statement)
         return result
+
+    async def delete_least_sold(self, top_n: int) -> None:
+        async with self.sessionmaker() as session:
+            least_selling_ids_subquery = (
+                select(SoldProductModel.product_id)
+                .group_by(SoldProductModel.product_id)
+                .order_by(
+                    asc(func.sum(SoldProductModel.quantity)),
+                    asc(SoldProductModel.product_id)
+                )
+                .limit(top_n)
+            )  # fmt: skip
+            statement = (
+                delete(ProductModel)
+                .where(ProductModel.id.in_(least_selling_ids_subquery))
+            )  # fmt: skip
+
+            await session.execute(statement)
+            await session.commit()

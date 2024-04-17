@@ -20,4 +20,9 @@ class SoldProductModel(Base):
 
     cashier_id: Mapped[int] = mapped_column(ForeignKey("cashier.id"))
     customer_id: Mapped[int] = mapped_column(ForeignKey("customer.id"))
-    product_id: Mapped[int] = mapped_column(ForeignKey("product.id"))
+    product_id: Mapped[int | None] = mapped_column(
+        ForeignKey(
+            column="product.id",
+            ondelete="SET NULL",
+        )
+    )
