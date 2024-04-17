@@ -35,3 +35,26 @@ class ProductRepository:
             )  # fmt: skip
             result = await session.scalar(statement)
         return result
+
+    async def get_cheapest_from_best_selling(self, top_n: int) -> ProductModel | None:
+        async with self.sessionmaker() as session:
+            best_selling_ids_subquery = (
+                select(SoldProductModel.product_id)
+                .group_by(SoldProductModel.product_id)
+                .order_by(
+                    desc(func.sum(SoldProductModel.quantity)),
+                    asc(SoldProductModel.product_id),
+                )
+                .limit(top_n)
+            )
+            statement = (
+                select(ProductModel)
+                .where(ProductModel.id.in_(best_selling_ids_subquery))
+                .order_by(
+                    asc(ProductModel.price),
+                    asc(ProductModel.id),
+                )
+                .limit(1)
+            )
+            result = await session.scalar(statement)
+        return result

@@ -40,3 +40,16 @@ async def test_get_best_selling(sut: ProductRepository) -> None:
     # Assert
     assert result is not None
     assert result.id == 15
+
+
+@pytest.mark.asyncio
+async def test_get_cheapest_from_best_selling(sut: ProductRepository) -> None:
+    # Arrange
+    await store_mock_data(sut.sessionmaker)
+
+    # Act
+    result = await sut.get_cheapest_from_best_selling(top_n=5)
+
+    # Assert
+    assert result is not None
+    assert result.id == 14
